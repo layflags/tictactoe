@@ -4,7 +4,7 @@
   "description": "The TicTacToe game in a few lines of JS",
   "main": "lib/tictactoe.js",
   "scripts": {
-    "start": "beefy tictactoe.js --live --open -- -t [ babelify --sourceMapRelative . ]",
+    "start": "beefy src/tictactoe.js --live --open -- -t [ babelify --sourceMapRelative . ]",
     "lint": "standard",
     "test": "tape test"
   },
