@@ -31,8 +31,14 @@ export function create () {
     return (fields[player] & Math.pow(2, pos)) > 0
   }
 
+  function getPlayerOn (pos) {
+    if (isTakenBy(0, pos)) return 0
+    if (isTakenBy(1, pos)) return 1
+    return null
+  }
+
   function isTaken (pos) {
-    return ((fields[0] | fields[1]) & Math.pow(2, pos)) > 0
+    return isTakenBy(0, pos) || isTakenBy(1, pos)
   }
 
   function xo (pos) {
@@ -72,6 +78,12 @@ export function create () {
     return true
   }
 
+  function mapCells (cb) {
+    return Array(9).fill().map((_, pos) => {
+      return cb(pos, getPlayerOn(pos), false)
+    })
+  }
+
   function reset () {
     fields.fill(0)
     activePlayer = 0
@@ -83,12 +95,14 @@ export function create () {
       return activePlayer
     },
     getOtherPlayer,
+    getPlayerOn,
     getWinner,
     hasWinner,
     isGameOver,
     isTaken,
     isTakenBy,
     isWinner,
+    mapCells,
     move,
     onUpdate,
     reset

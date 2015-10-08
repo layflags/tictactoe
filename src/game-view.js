@@ -5,27 +5,26 @@
 * @return {object} The game view
 */
 export function create (store) {
-  const {isTakenBy, getActivePlayer, getWinner, hasWinner, isGameOver} = store
+  const {mapCells, getActivePlayer, getWinner, hasWinner, isGameOver} = store
   const clickCellCallbacks = []
 
   let gameContainer
 
   function avatar (player) {
+    if (player === null) return ''
     return player ? 'O' : 'X'
   }
 
-  function renderCell (pos) {
+  function renderCell (pos, player, isWinner) {
     return `
-      <div class="cell" data-pos="${pos}">
-        ${isTakenBy(0, pos) && avatar(0) || isTakenBy(1, pos) && avatar(1) || ''}
+      <div class="cell ${isWinner ? 'is-winner' : ''}" data-pos="${pos}">
+        ${avatar(player)}
       </div>
     `
   }
 
   function renderField () {
-    const cells = [0, 1, 2, 3, 4, 5, 6, 7, 8].map(renderCell)
-
-    return `<div class="field">${cells.join('')}</div>`
+    return `<div class="field">${mapCells(renderCell).join('')}</div>`
   }
 
   function renderMessage () {
@@ -80,7 +79,7 @@ export function create (store) {
     renderGame(gameContainer)
 
     gameContainer.addEventListener('click', (e) => {
-      if (e.target.className === 'cell') {
+      if (e.target.className.match(/cell/)) {
         const pos = e.target.dataset.pos
 
         if (pos) triggerClickCell(pos)
