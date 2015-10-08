@@ -27,8 +27,12 @@ export function create () {
     updateCallbacks.forEach((cb) => cb())
   }
 
+  function isset (field, pos) {
+    return (field & Math.pow(2, pos)) > 0
+  }
+
   function isTakenBy (player, pos) {
-    return (fields[player] & Math.pow(2, pos)) > 0
+    return isset(fields[player], pos)
   }
 
   function getPlayerOn (pos) {
@@ -38,7 +42,7 @@ export function create () {
   }
 
   function isTaken (pos) {
-    return isTakenBy(0, pos) || isTakenBy(1, pos)
+    return getPlayerOn(pos) !== null
   }
 
   function xo (pos) {
@@ -49,8 +53,18 @@ export function create () {
     return Math.abs(activePlayer - 1)
   }
 
+  function fnCheckWinFor (player) {
+    return (win) => (fields[player] & win) === win
+  }
+
   function isWinner (player) {
-    return wins.some((win) => (fields[player] & win) === win)
+    return wins.some(fnCheckWinFor(player))
+  }
+
+  function isWinnerCell (pos, player) {
+    const win = wins.find(fnCheckWinFor(player))
+
+    return (win || false) && isset(win, pos)
   }
 
   function getWinner () {
@@ -63,8 +77,12 @@ export function create () {
     return getWinner() !== null
   }
 
+  function isFieldFilled () {
+    return (fields[0] ^ fields[1]) === 0b111111111
+  }
+
   function isGameOver () {
-    return hasWinner() || (fields[0] ^ fields[1]) === 0b111111111
+    return hasWinner() || isFieldFilled()
   }
 
   function move (pos) {
@@ -79,8 +97,12 @@ export function create () {
   }
 
   function mapCells (cb) {
+    const isWon = hasWinner()
+
     return Array(9).fill().map((_, pos) => {
-      return cb(pos, getPlayerOn(pos), false)
+      const player = getPlayerOn(pos)
+
+      return cb(pos, player, isWon && isWinnerCell(pos, player))
     })
   }
 

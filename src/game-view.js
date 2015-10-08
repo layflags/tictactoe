@@ -53,11 +53,15 @@ export function create (store) {
           text-align: center;
           line-height: 2em;
         }
+        .cell.is-winner {
+          background-color: lime;
+        }
         .field {
           overflow: auto;
           width: 6em;
         }
       </style>
+
       <h1>Tic Tac Toe</h1>
       <div id="game"></div>
       `
