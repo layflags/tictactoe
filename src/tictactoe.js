@@ -5,12 +5,8 @@ const store = createGameStore()
 const view = createGameView(store)
 
 view.render(document.body)
-view.onClickCell(store.move)
+view.on('click:cell', store.move)
+view.on('click:restart', store.reset)
 
 store.onUpdate(view.rerender)
-store.onUpdate(() => {
-  if (store.isGameOver() && window.confirm('play again?')) {
-    store.reset()
-  }
-})
 

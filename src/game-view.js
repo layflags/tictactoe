@@ -6,9 +6,19 @@
 */
 export function create (store) {
   const {mapCells, getActivePlayer, getWinner, hasWinner, isGameOver} = store
-  const clickCellCallbacks = []
+  const eventCallbacks = []
 
   let gameContainer
+
+  function on (eventName, cb) {
+    eventCallbacks.push([cb, eventName])
+  }
+
+  function trigger (eventName, ...args) {
+    eventCallbacks.forEach(([cb, evtName]) => {
+      if (eventName === evtName) cb(...args)
+    })
+  }
 
   function avatar (player) {
     if (player === null) return ''
@@ -29,16 +39,20 @@ export function create (store) {
 
   function renderMessage () {
     if (hasWinner()) return `Player ${avatar(getWinner())} has won!`
-    if (isGameOver()) return `Nobody has won! Game over.`
+    if (isGameOver()) return `Nobody has won!`
 
     return `It's player ${avatar(getActivePlayer())}s turn!`
   }
 
+  function renderRestartBtn () {
+    return '<button id="btnRestart">Play again!</button>'
+  }
+
   function renderGame (container) {
     container.innerHTML = `
-      <p>${renderMessage()}</p>
+      <p>${renderMessage()} ${isGameOver() ? renderRestartBtn() : ''}</p>
       ${renderField()}
-      `
+    `
   }
 
   function renderLayout (container) {
@@ -71,14 +85,6 @@ export function create (store) {
     return document.getElementById('game')
   }
 
-  function onClickCell (cb) {
-    clickCellCallbacks.push(cb)
-  }
-
-  function triggerClickCell (pos) {
-    clickCellCallbacks.forEach((cb) => cb(pos))
-  }
-
   function render (container) {
     if (gameContainer) throw new Error('already rendered, use `rerender`')
 
@@ -86,10 +92,16 @@ export function create (store) {
     renderGame(gameContainer)
 
     gameContainer.addEventListener('click', (e) => {
+      // handle cell click
       if (e.target.className.match(/cell/)) {
         const pos = e.target.dataset.pos
 
-        if (pos) triggerClickCell(pos)
+        if (pos) trigger('click:cell', pos)
+      }
+
+      // handle restart btn click
+      if (e.target.id === 'btnRestart') {
+        trigger('click:restart')
       }
     })
   }
@@ -101,7 +113,7 @@ export function create (store) {
   }
 
   return Object.freeze({
-    onClickCell,
+    on, // click:cell, click:restart
     render,
     rerender
   })
