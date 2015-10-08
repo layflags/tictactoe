@@ -1,12 +1,12 @@
 {
   "name": "tictactoe",
   "version": "0.1.0",
-  "description": "The TicTacToe game in a few lines of JS",
+  "description": "The TicTacToe game in a few lines of vanilla ES6",
   "main": "lib/tictactoe.js",
   "scripts": {
     "start": "beefy src/tictactoe.js --live --open -- -t [ babelify --sourceMapRelative . ]",
     "lint": "standard",
-    "test": "tape test"
+    "test": "babel-node test"
   },
   "pre-commit": [
     "lint",
@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/layflags/tictactoe#readme",
   "devDependencies": {
+    "babel": "^5.8.23",
     "babelify": "^6.3.0",
     "beefy": "^2.1.5",
     "browserify": "^11.2.0",
