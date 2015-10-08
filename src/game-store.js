@@ -27,8 +27,8 @@ export function create () {
     updateCallbacks.forEach((cb) => cb())
   }
 
-  function isGameOver () {
-    return hasWinner() || (fields[0] ^ fields[1]) === 0b111111111
+  function isTakenBy (player, pos) {
+    return (fields[player] & Math.pow(2, pos)) > 0
   }
 
   function isTaken (pos) {
@@ -57,6 +57,10 @@ export function create () {
     return getWinner() !== null
   }
 
+  function isGameOver () {
+    return hasWinner() || (fields[0] ^ fields[1]) === 0b111111111
+  }
+
   function move (pos) {
     if (isGameOver()) return false
     if (isTaken(pos)) return false
@@ -66,10 +70,6 @@ export function create () {
     triggerUpdate()
 
     return true
-  }
-
-  function isTakenBy (player, pos) {
-    return (fields[player] & Math.pow(2, pos)) > 0
   }
 
   function reset () {
@@ -94,3 +94,4 @@ export function create () {
     reset
   })
 }
+
