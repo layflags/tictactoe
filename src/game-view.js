@@ -41,7 +41,7 @@ export function create (store) {
     if (hasWinner()) return `Player ${avatar(getWinner())} has won!`
     if (isGameOver()) return `Nobody has won!`
 
-    return `It's player ${avatar(getActivePlayer())}s turn!`
+    return `It's player ${avatar(getActivePlayer())}'s turn!`
   }
 
   function renderRestartBtn () {
