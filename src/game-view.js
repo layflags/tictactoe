@@ -42,23 +42,26 @@ export function create (store) {
   }
 
   function renderLayout (container) {
+    const cellSize = 4
+
     container.innerHTML = `
       <style>
         .cell {
-          width: 2em;
-          height: 2em;
+          width: 1em;
+          height: 1em;
           border: 1px solid black;
           float: left;
           box-sizing: border-box;
           text-align: center;
-          line-height: 2em;
+          line-height: 1em;
+          font-size: ${cellSize}em;
         }
         .cell.is-winner {
           background-color: lime;
         }
         .field {
           overflow: auto;
-          width: 6em;
+          width: ${cellSize * 3}em;
         }
       </style>
 
