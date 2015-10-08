@@ -17,7 +17,6 @@ export function create () {
 
   let fields = [0b000000000, 0b000000000]
   let activePlayer = 0
-  let winner = null
   let updateCallbacks = []
 
   function onUpdate (cb) {
@@ -28,24 +27,45 @@ export function create () {
     updateCallbacks.forEach((cb) => cb())
   }
 
+  function isGameOver () {
+    return hasWinner() || (fields[0] ^ fields[1]) === 0b111111111
+  }
+
+  function isTaken (pos) {
+    return ((fields[0] | fields[1]) & Math.pow(2, pos)) > 0
+  }
+
+  function xo (pos) {
+    fields[activePlayer] |= Math.pow(2, pos)
+  }
+
+  function getOtherPlayer () {
+    return Math.abs(activePlayer - 1)
+  }
+
+  function isWinner (player) {
+    return wins.some((win) => (fields[player] & win) === win)
+  }
+
+  function getWinner () {
+    if (isWinner(0)) return 0
+    if (isWinner(1)) return 1
+    return null
+  }
+
+  function hasWinner () {
+    return getWinner() !== null
+  }
+
   function move (pos) {
-    const mark = Math.pow(2, pos)
-    const otherPlayer = Math.abs(activePlayer - 1)
-    const taken = fields[activePlayer] & mark || fields[otherPlayer] & mark
+    if (isGameOver()) return false
+    if (isTaken(pos)) return false
 
-    let won = false
-
-    // update playing field
-    if (!taken) fields[activePlayer] |= mark
-
-    // compute winner
-    won = !taken && wins.some((win) => (fields[activePlayer] & win) === win)
-    if (won) winner = activePlayer
-
-    // change player
-    if (!taken && !won) activePlayer = otherPlayer
-
+    xo(pos)
+    activePlayer = getOtherPlayer()
     triggerUpdate()
+
+    return true
   }
 
   function isTakenBy (player, pos) {
@@ -55,23 +75,22 @@ export function create () {
   function reset () {
     fields.fill(0)
     activePlayer = 0
-    winner = null
     triggerUpdate()
   }
 
   return Object.freeze({
-    move,
-    isTakenBy,
-    onUpdate,
-    reset,
     getActivePlayer () {
       return activePlayer
     },
-    getWinner () {
-      return winner
-    },
-    hasWinner () {
-      return winner !== null
-    }
+    getOtherPlayer,
+    getWinner,
+    hasWinner,
+    isGameOver,
+    isTaken,
+    isTakenBy,
+    isWinner,
+    move,
+    onUpdate,
+    reset
   })
 }

@@ -5,7 +5,7 @@
 * @return {object} The game view
 */
 export function create (store) {
-  const {isTakenBy, getActivePlayer, getWinner, hasWinner} = store
+  const {isTakenBy, getActivePlayer, getWinner, hasWinner, isGameOver} = store
   const clickCellCallbacks = []
 
   let gameContainer
@@ -30,8 +30,9 @@ export function create (store) {
 
   function renderMessage () {
     if (hasWinner()) return `Player ${avatar(getWinner())} has won!`
+    if (isGameOver()) return `Nobody has won! Game over.`
 
-    return `It's Players ${avatar(getActivePlayer())} turn!`
+    return `It's player ${avatar(getActivePlayer())}s turn!`
   }
 
   function renderGame (container) {

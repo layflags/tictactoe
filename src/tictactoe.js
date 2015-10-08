@@ -5,10 +5,11 @@ const store = createGameStore()
 const view = createGameView(store)
 
 view.render(document.body)
+view.onClickCell(store.move)
+
 store.onUpdate(view.rerender)
-view.onClickCell((pos) => {
-  store.move(pos)
-  if (store.hasWinner() && window.confirm('play again?')) {
+store.onUpdate(() => {
+  if (store.isGameOver() && window.confirm('play again?')) {
     store.reset()
   }
 })
