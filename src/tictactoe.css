@@ -12,7 +12,7 @@
   background-color: lime;
 }
 .field {
-  overflow: auto;
-  width: 9em;
+  width: 10em;
+  height: 10em;
 }
 
