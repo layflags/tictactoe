@@ -1,4 +1,4 @@
-function appendHTML(html, container) {
+function appendHTML (html, container) {
   const div = document.createElement('div')
 
   div.innerHTML = html
