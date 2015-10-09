@@ -1,3 +1,12 @@
+function appendHTML(html, container) {
+  const div = document.createElement('div')
+
+  div.innerHTML = html
+  Array.from(div.childNodes).forEach((childNode) => {
+    container.appendChild(childNode)
+  })
+}
+
 /**
 * Creates the game view.
 *
@@ -50,7 +59,7 @@ export function create (store) {
   }
 
   function renderLayout (container) {
-    container.innerHTML = `<h1>Tic Tac Toe</h1><div id="game"></div>`
+    appendHTML('<h1>Tic Tac Toe</h1><div id="game"></div>', container)
     return document.getElementById('game')
   }
 
