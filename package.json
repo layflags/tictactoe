@@ -4,7 +4,7 @@
   "description": "The TicTacToe game in a few lines of vanilla ES6",
   "main": "lib/tictactoe.js",
   "scripts": {
-    "start": "beefy src/tictactoe.js --live --open -- -t [ babelify --sourceMapRelative . ] -t cssify",
+    "start": "beefy src/tictactoe.js:ttt.js --live --open --cwd public --index public/index.html -- -t [ babelify --sourceMapRelative . ] -t cssify",
     "lint": "standard",
     "test": "babel-node test",
     "build": "mkdir -p build && cp public/* build/ && browserify src/tictactoe.js -t babelify -t cssify --plugin [minifyify --no-map] --plugin bundle-collapser/plugin -o build/ttt.js",
