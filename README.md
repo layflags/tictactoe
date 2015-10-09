@@ -4,7 +4,7 @@
 
 The famous TicTacToe game in a few lines of vanilla ES6.
 
-Play it right here in your browser: http://tictactoe.layfla.gs
+Play it right here in your browser: http://tictactoe.layfla.gs (3.34KB total)
 
 ## Run
 
