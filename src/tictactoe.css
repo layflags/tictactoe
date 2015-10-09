@@ -1,0 +1,18 @@
+.cell {
+  width: 1em;
+  height: 1em;
+  border: 1px solid black;
+  float: left;
+  box-sizing: border-box;
+  text-align: center;
+  line-height: 1em;
+  font-size: 3em;
+}
+.cell.is-winner {
+  background-color: lime;
+}
+.field {
+  overflow: auto;
+  width: 9em;
+}
+
