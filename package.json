@@ -6,7 +6,9 @@
   "scripts": {
     "start": "beefy src/tictactoe.js --live --open -- -t [ babelify --sourceMapRelative . ] -t cssify",
     "lint": "standard",
-    "test": "babel-node test"
+    "test": "babel-node test",
+    "build": "mkdir -p build && JS_FILENAME=tictactoe.min.$(date +%s).js; browserify src/tictactoe.js -t babelify -t cssify --plugin [minifyify --no-map] --plugin bundle-collapser/plugin -o build/$JS_FILENAME && cat src/index.html | sed -e \"s/__JS__/$JS_FILENAME/\" > build/index.html",
+    "deploy": "npm run build && surge build tictactoe.layfla.gs"
   },
   "pre-commit": [
     "lint",
@@ -33,9 +35,12 @@
     "babelify": "^6.3.0",
     "beefy": "^2.1.5",
     "browserify": "^11.2.0",
+    "bundle-collapser": "^1.2.1",
     "cssify": "^0.7.0",
+    "minifyify": "^7.1.0",
     "pre-commit": "^1.1.1",
     "standard": "^5.3.1",
+    "surge": "^0.15.0",
     "tape": "^4.2.1",
     "watchify": "^3.4.0"
   }
