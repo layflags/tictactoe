@@ -26,15 +26,9 @@ export function create (store) {
   }
 
   function renderCell (pos, player, isWinner) {
-    return `
-      <div class="cell ${isWinner ? 'is-winner' : ''}" data-pos="${pos}">
-        ${avatar(player)}
-      </div>
-    `
-  }
+    const classes = ['cell', isWinner ? 'is-winner' : ''].join(' ')
 
-  function renderField () {
-    return `<div class="field">${mapCells(renderCell).join('')}</div>`
+    return `<div class="${classes}" data-pos="${pos}">${avatar(player)}</div>`
   }
 
   function renderMessage () {
@@ -51,7 +45,7 @@ export function create (store) {
   function renderGame (container) {
     container.innerHTML = `
       <p>${renderMessage()} ${isGameOver() ? renderRestartBtn() : ''}</p>
-      ${renderField()}
+      <div class="field">${mapCells(renderCell).join('')}</div>
     `
   }
 
