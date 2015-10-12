@@ -16,7 +16,7 @@ function appendHTML (html, container) {
 * @return {object} The game view
 */
 export function create (store) {
-  const {mapCells, getActivePlayer, getWinner, hasWinner, isGameOver} = store
+  const {getCells, getActivePlayer, getWinner, hasWinner, isGameOver} = store
   const {on, trigger} = createEventEmitter()
 
   let gameContainer
@@ -26,7 +26,7 @@ export function create (store) {
     return player ? 'O' : 'X'
   }
 
-  function renderCell (pos, player, isWinner) {
+  function renderCell ({pos, player, isWinner}) {
     const classes = ['cell', isWinner ? 'is-winner' : ''].join(' ')
 
     return `<div class="${classes}" data-pos="${pos}">${avatar(player)}</div>`
@@ -46,7 +46,7 @@ export function create (store) {
   function renderGame (container) {
     container.innerHTML = `
       <p>${renderMessage()} ${isGameOver() ? renderRestartBtn() : ''}</p>
-      <div class="field">${mapCells(renderCell).join('')}</div>
+      <div class="field">${getCells().map(renderCell).join('')}</div>
     `
   }
 

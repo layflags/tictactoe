@@ -91,13 +91,14 @@ export function create () {
     return true
   }
 
-  function mapCells (cb) {
+  function getCells () {
     const isWon = hasWinner()
 
     return Array(9).fill().map((_, pos) => {
       const player = getPlayerOn(pos)
+      const isWinner = isWon && isWinnerCell(pos, player)
 
-      return cb(pos, player, isWon && isWinnerCell(pos, player))
+      return {pos, player, isWinner}
     })
   }
 
@@ -119,7 +120,7 @@ export function create () {
     isTaken,
     isTakenBy,
     isWinner,
-    mapCells,
+    getCells,
     move,
     on,
     reset
