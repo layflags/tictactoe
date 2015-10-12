@@ -1,3 +1,5 @@
+import {create as createEventEmitter} from './event-emitter'
+
 /**
 * Creates the game store.
 *
@@ -15,17 +17,10 @@ export function create () {
     0b001010100
   ]
 
+  const {on, trigger} = createEventEmitter()
+
   let fields = [0b000000000, 0b000000000]
   let activePlayer = 0
-  let updateCallbacks = []
-
-  function onUpdate (cb) {
-    updateCallbacks.push(cb)
-  }
-
-  function triggerUpdate () {
-    updateCallbacks.forEach((cb) => cb())
-  }
 
   function isset (field, pos) {
     return (field & Math.pow(2, pos)) > 0
@@ -91,7 +86,7 @@ export function create () {
 
     xo(pos)
     activePlayer = getOtherPlayer()
-    triggerUpdate()
+    trigger('update')
 
     return true
   }
@@ -109,7 +104,7 @@ export function create () {
   function reset () {
     fields.fill(0)
     activePlayer = 0
-    triggerUpdate()
+    trigger('update')
   }
 
   return Object.freeze({
@@ -126,7 +121,7 @@ export function create () {
     isWinner,
     mapCells,
     move,
-    onUpdate,
+    on,
     reset
   })
 }

@@ -1,3 +1,5 @@
+import {create as createEventEmitter} from './event-emitter'
+
 function appendHTML (html, container) {
   const div = document.createElement('div')
 
@@ -15,19 +17,9 @@ function appendHTML (html, container) {
 */
 export function create (store) {
   const {mapCells, getActivePlayer, getWinner, hasWinner, isGameOver} = store
-  const eventCallbacks = []
+  const {on, trigger} = createEventEmitter()
 
   let gameContainer
-
-  function on (eventName, cb) {
-    eventCallbacks.push([cb, eventName])
-  }
-
-  function trigger (eventName, ...args) {
-    eventCallbacks.forEach(([cb, evtName]) => {
-      if (eventName === evtName) cb(...args)
-    })
-  }
 
   function avatar (player) {
     if (player === null) return ''

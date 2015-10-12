@@ -11,6 +11,6 @@ view.on('click:restart', store.reset)
 
 document.addEventListener('DOMContentLoaded', () => {
   view.render(document.body)
-  store.onUpdate(view.rerender)
+  store.on('update', view.rerender)
 })
 
