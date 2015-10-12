@@ -1,22 +1,22 @@
 import {create as createEventEmitter} from './event-emitter'
 
+const wins = [
+  0b111000000,
+  0b000111000,
+  0b000000111,
+  0b100100100,
+  0b010010010,
+  0b001001001,
+  0b100010001,
+  0b001010100
+]
+
 /**
 * Creates the game store.
 *
 * @return {object} The game store
 */
 export function create () {
-  const wins = [
-    0b111000000,
-    0b000111000,
-    0b000000111,
-    0b100100100,
-    0b010010010,
-    0b001001001,
-    0b100010001,
-    0b001010100
-  ]
-
   const {on, trigger} = createEventEmitter()
 
   let fields = [0b000000000, 0b000000000]
