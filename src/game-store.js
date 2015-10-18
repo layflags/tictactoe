@@ -44,6 +44,10 @@ export function create () {
     fields[activePlayer] |= Math.pow(2, pos)
   }
 
+  function getActivePlayer () {
+    return activePlayer
+  }
+
   function getOtherPlayer () {
     return Math.abs(activePlayer - 1)
   }
@@ -80,12 +84,16 @@ export function create () {
     return hasWinner() || isFieldFilled()
   }
 
+  function switchPlayer () {
+    activePlayer = getOtherPlayer()
+  }
+
   function move (pos) {
     if (isGameOver()) return false
     if (isTaken(pos)) return false
 
     xo(pos)
-    activePlayer = getOtherPlayer()
+    switchPlayer()
     trigger('update')
 
     return true
@@ -103,15 +111,13 @@ export function create () {
   }
 
   function reset () {
-    fields.fill(0)
+    fields.fill(0b000000000)
     activePlayer = 0
     trigger('update')
   }
 
   return Object.freeze({
-    getActivePlayer () {
-      return activePlayer
-    },
+    getActivePlayer,
     getOtherPlayer,
     getPlayerOn,
     getWinner,
