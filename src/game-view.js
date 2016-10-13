@@ -1,14 +1,5 @@
 import {create as createEventEmitter} from './event-emitter'
 
-function appendHTML (html, container) {
-  const div = document.createElement('div')
-
-  div.innerHTML = html
-  Array.from(div.childNodes).forEach((childNode) => {
-    container.appendChild(childNode)
-  })
-}
-
 /**
 * Creates the game view.
 *
@@ -27,38 +18,40 @@ export function create (store) {
   }
 
   function renderCell ({pos, player, isWinner}) {
-    const classes = ['cell', isWinner ? 'is-winner' : ''].join(' ')
+    const classes = [
+      'cell',
+      isWinner ? `is-winner player${avatar(player)}` : ''
+    ].join(' ')
 
     return `<div class="${classes}" data-pos="${pos}">${avatar(player)}</div>`
   }
 
   function renderMessage () {
-    if (hasWinner()) return `Player ${avatar(getWinner())} has won!`
+    if (hasWinner()) {
+      const winnerAvatar = avatar(getWinner())
+      return `<span class="player${winnerAvatar}">Player ${winnerAvatar} has won!</span>`
+    }
     if (isGameOver()) return `Nobody has won!`
 
-    return `It's player ${avatar(getActivePlayer())}'s turn!`
+    const activeAvatar = avatar(getActivePlayer())
+    return `<span class="player${activeAvatar}">It's player ${activeAvatar}'s turn!</span>`
   }
 
   function renderRestartBtn () {
-    return '<button id="btnRestart">Play again!</button>'
+    return '<a href="#restart" id="btnRestart">Again?</a>'
   }
 
   function renderGame (container) {
     container.innerHTML = `
-      <p>${renderMessage()} ${isGameOver() ? renderRestartBtn() : ''}</p>
+      <div class="info">${renderMessage()} ${isGameOver() ? renderRestartBtn() : ''}</div>
       <div class="field">${getCells().map(renderCell).join('')}</div>
     `
-  }
-
-  function renderLayout (container) {
-    appendHTML('<h1>Tic Tac Toe</h1><div id="game"></div>', container)
-    return document.getElementById('game')
   }
 
   function render (container) {
     if (gameContainer) throw new Error('already rendered, use `rerender`')
 
-    gameContainer = renderLayout(container)
+    gameContainer = document.getElementById('game')
     renderGame(gameContainer)
 
     gameContainer.addEventListener('click', (e) => {
@@ -72,6 +65,7 @@ export function create (store) {
       // handle restart btn click
       if (e.target.id === 'btnRestart') {
         trigger('click:restart')
+        e.preventDefault()
       }
     })
   }
