@@ -59,4 +59,13 @@ a {
 .game {
   -webkit-tap-highlight-color: transparent;
 }
-
+@keyframes pulse-animation {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.5); }
+  100% { transform: scale(1); }
+}
+.again {
+  display: inline-block;
+  animation: 2s ease infinite pulse-animation;
+  transform-origin: 0 80%;
+}

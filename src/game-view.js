@@ -38,7 +38,7 @@ export function create (store) {
   }
 
   function renderRestartBtn () {
-    return '<a href="#restart" id="btnRestart">Again?</a>'
+    return '<a href="#restart" class="again" id="btnRestart">Again?</a>'
   }
 
   function renderGame (container) {
