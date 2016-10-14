@@ -56,4 +56,7 @@ a {
   clear: left;
   display: block;
 }
+.game {
+  -webkit-tap-highlight-color: transparent;
+}
 
