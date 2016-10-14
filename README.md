@@ -6,11 +6,11 @@ The famous TicTacToe game in a few lines of vanilla ES6.
 
 Play it right here in your browser: http://tictactoe.layfla.gs
 
-## Run
+## Development
 
 ```
 npm install
-npm start
+npm run dev
 ```
 
 ## Test

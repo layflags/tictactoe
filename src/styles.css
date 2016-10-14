@@ -1,0 +1,92 @@
+:root {
+  --midnightgrey: #465775;
+  --lightred: #EF6F6C;
+  --lightgreen: #56E39F;
+  --margin: 1.2rem;
+  --cell-height: calc(33.33vh - 3.8rem);
+  --cell-margin-compensation: calc(var(--margin) * 2 / 3);
+  --field-margin-compensation: calc(var(--margin) * 2)
+}
+
+/* defaults */
+
+body {
+  background: var(--midnightgrey);
+  margin: var(--margin);
+  font-family: monospace;
+  color: black;
+}
+
+a {
+  color: inherit;
+}
+
+/* elements */
+
+.headline {
+  font-size: 2.5rem;
+  margin: 0;
+}
+
+.info {
+  margin: 1rem 0 2rem 0;
+  font-size: 1.2rem;
+}
+
+.player {
+  &X { color: var(--lightred); }
+  &O { color: var(--lightgreen); }
+  &X, &O {
+    text-shadow: rgba(0,0,0,.3) 2px 1px 3px
+  }
+}
+
+.cell {
+  border: 1px solid black;
+  border-left: none;
+  border-top: none;
+  box-sizing: border-box;
+  float: left;
+  font-size: var(--cell-height);
+  height: var(--cell-height);
+  line-height: .9;
+  max-width: calc(33.33vmin - var(--cell-margin-compensation));
+  text-align: center;
+  width: calc(33.33vw - var(--cell-margin-compensation));
+  &:nth-child(3n+0) {
+    border-right: none;
+  }
+  &:nth-child(1n+7) {
+    border-bottom: none;
+  }
+  &.is-winner {
+    /* noop */
+  }
+}
+
+.field {
+  max-width: calc(100vmin - var(--field-margin-compensation));
+  margin: 0 auto;
+  &::after {
+    content: '';
+    clear: left;
+    display: block;
+  }
+}
+
+.again {
+  display: inline-block;
+  animation: 2s ease infinite pulse-animation;
+  transform-origin: 0 80%;
+}
+
+/* prevent tap highlight */
+.game {
+  -webkit-tap-highlight-color: transparent;
+}
+
+@keyframes pulse-animation {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.5); }
+  100% { transform: scale(1); }
+}

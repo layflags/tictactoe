@@ -2,12 +2,13 @@
   "name": "tictactoe",
   "version": "0.1.0",
   "description": "The TicTacToe game in a few lines of vanilla ES6",
-  "main": "lib/tictactoe.js",
+  "main": "src/index.js",
   "scripts": {
-    "start": "beefy src/tictactoe.js:ttt.js --live --open --cwd public --index public/index.html -- -t [ babelify --sourceMapRelative . ] -t cssify",
+    "predev": "npm run -s build",
+    "dev": "NODE_ENV=development rollup -c --watch",
     "lint": "standard",
-    "test": "babel-node test",
-    "build": "mkdir -p build && cp public/* build/ && browserify src/tictactoe.js -t babelify -t cssify --plugin [minifyify --no-map] --plugin bundle-collapser/plugin -o build/ttt.js",
+    "test": "ava",
+    "build": "rm -rf build && mkdir build && cp public/* build/ && rollup -c",
     "deploy": "npm run build && surge build tictactoe.layfla.gs"
   },
   "pre-commit": [
@@ -31,17 +32,17 @@
   },
   "homepage": "https://github.com/layflags/tictactoe#readme",
   "devDependencies": {
-    "babel": "^5.8.23",
-    "babelify": "^6.3.0",
-    "beefy": "^2.1.5",
-    "browserify": "^11.2.0",
-    "bundle-collapser": "^1.2.1",
-    "cssify": "^0.7.0",
-    "minifyify": "^7.1.0",
+    "ava": "^0.16.0",
+    "cssnano": "^3.7.7",
+    "live-server": "^1.1.0",
+    "postcss-cssnext": "^2.8.0",
     "pre-commit": "^1.1.1",
+    "rollup": "^0.36.3",
+    "rollup-plugin-buble": "^0.14.0",
+    "rollup-plugin-postcss-export": "^0.1.2",
+    "rollup-plugin-uglify": "^1.0.1",
+    "rollup-watch": "^2.5.0",
     "standard": "^5.3.1",
-    "surge": "^0.15.0",
-    "tape": "^4.2.1",
-    "watchify": "^3.4.0"
+    "surge": "^0.15.0"
   }
 }
