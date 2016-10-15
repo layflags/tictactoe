@@ -1,8 +1,8 @@
-import {create as createGameStore} from './game-store'
-import {create as createGameView} from './game-view'
+import {create as createEngine} from './engine'
+import {create as createView} from './view'
 
-const store = createGameStore()
-const view = createGameView(store)
+const store = createEngine()
+const view = createView(store)
 
 view.on('click:cell', store.move)
 view.on('click:restart', store.reset)

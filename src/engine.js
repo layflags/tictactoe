@@ -26,9 +26,9 @@ function isset (field, pos) {
 }
 
 /**
-* Creates the game store.
+* Creates the game engine.
 *
-* @return {object} The game store
+* @return {object} The game engine
 */
 export function create () {
   const {on, trigger} = createEventEmitter()
