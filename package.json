@@ -8,7 +8,7 @@
     "dev": "NODE_ENV=development rollup -c --watch",
     "lint": "standard",
     "test": "ava",
-    "build": "rm -rf build && mkdir build && cp public/* build/ && rollup -c",
+    "build": "rm -rf build && mkdir build && cp public/* build/ && rollup -c && inline-assets --htmlmin build/index.html build/index.html",
     "deploy": "npm run build && surge build tictactoe.layfla.gs"
   },
   "pre-commit": [
@@ -34,6 +34,7 @@
   "devDependencies": {
     "ava": "^0.16.0",
     "cssnano": "^3.7.7",
+    "inline-assets": "^1.1.0",
     "live-server": "^1.1.0",
     "postcss-cssnext": "^2.8.0",
     "pre-commit": "^1.1.1",
