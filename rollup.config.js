@@ -7,7 +7,7 @@ import cssnext from 'postcss-cssnext'
 import cssnano from 'cssnano'
 import liveServer from 'live-server'
 
-if (process.env.NODE_ENV === 'development') {
+if (process.argv.includes('--watch')) {
   liveServer.start({ root: 'build' })
 }
 
