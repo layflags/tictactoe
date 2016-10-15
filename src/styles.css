@@ -79,14 +79,32 @@ a {
   animation: 2s ease infinite pulse-animation;
   transform-origin: 0 80%;
 }
+@keyframes pulse-animation {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.5); }
+  100% { transform: scale(1); }
+}
 
 /* prevent tap highlight */
 .game {
   -webkit-tap-highlight-color: transparent;
 }
 
-@keyframes pulse-animation {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.5); }
-  100% { transform: scale(1); }
+/* github corner specific */
+.github-corner:hover .octo-arm {
+  animation: octocat-wave 560ms ease-in-out;
 }
+@keyframes octocat-wave {
+  0%, 100% { transform: rotate(0); }
+  20%, 60% { transform: rotate(-25deg); }
+  40%, 80% { transform: rotate(10deg); }
+}
+@media (max-width: 500px) {
+  .github-corner:hover .octo-arm {
+    animation: none;
+  }
+  .github-corner .octo-arm {
+    animation: octocat-wave 560ms ease-in-out;
+  }
+}
+
