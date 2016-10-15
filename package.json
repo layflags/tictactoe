@@ -8,8 +8,9 @@
     "dev": "NODE_ENV=development rollup -c --watch",
     "lint": "standard",
     "test": "ava",
-    "build": "rm -rf build && mkdir build && cp public/* build/ && rollup -c && inline-assets --htmlmin build/index.html build/index.html",
-    "deploy": "npm run build && surge build tictactoe.layfla.gs"
+    "build": "rm -rf build && mkdir build && cp public/* build/ && rollup -c",
+    "minify": "inline-assets --htmlmin build/index.html build/index.html",
+    "deploy": "npm run -s build && npm run -s minify && surge build tictactoe.layfla.gs"
   },
   "pre-commit": [
     "lint",
