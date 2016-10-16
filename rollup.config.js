@@ -7,14 +7,16 @@ import cssnext from 'postcss-cssnext'
 import cssnano from 'cssnano'
 import liveServer from 'live-server'
 
-if (process.argv.includes('--watch')) {
+const inWatchMode = process.argv.includes('--watch')
+
+if (inWatchMode) {
   liveServer.start({ root: 'build' })
 }
 
 export default {
   entry: 'src/index.js',
   format: 'iife',
-  sourceMap: true,
+  sourceMap: inWatchMode,
   plugins: [
     postcss({
       plugins: [
