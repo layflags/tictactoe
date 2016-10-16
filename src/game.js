@@ -1,13 +1,13 @@
 import {create as createEngine} from './engine'
 import {create as createView} from './view'
 
-const store = createEngine()
-const view = createView(store)
+const engine = createEngine()
+const view = createView(engine)
 
-view.on('click:cell', store.move)
-view.on('click:restart', store.reset)
+view.on('click:cell', engine.move)
+view.on('click:restart', engine.reset)
 
 document.addEventListener('DOMContentLoaded', () => {
   view.render(document.body)
-  store.on('update', view.rerender)
+  engine.on('update', view.rerender)
 })
