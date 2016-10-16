@@ -1,13 +1,13 @@
-import {create as createEngine} from './engine'
-import {create as createView} from './view'
+import createEngine from './engine'
+import createView from './view'
 
-const engine = createEngine()
-const view = createView(engine)
+export default (container) => {
+  const engine = createEngine()
+  const view = createView(container, engine)
 
-view.on('click:cell', engine.move)
-view.on('click:restart', engine.reset)
+  view.on('click:cell', engine.move)
+  view.on('click:restart', engine.reset)
 
-document.addEventListener('DOMContentLoaded', () => {
-  view.render(document.body)
-  engine.on('update', view.rerender)
-})
+  engine.on('update', view.render)
+  // short for: engine.on('update', (state) => view.render(state))
+}

@@ -1,4 +1,4 @@
-export function create () {
+export default () => {
   const eventCallbacks = []
 
   function on (eventName, cb) {

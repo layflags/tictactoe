@@ -1,4 +1,4 @@
-import {create as createEventEmitter} from './event-emitter'
+import createEventEmitter from './event-emitter'
 
 // Bit field constants
 
@@ -30,7 +30,7 @@ function isset (field, pos) {
 *
 * @return {object} The game engine
 */
-export function create () {
+export default () => {
   const {on, trigger} = createEventEmitter()
 
   // Game state
