@@ -7,16 +7,23 @@ import createEventEmitter from './event-emitter'
 * @param {object} engine - The game engine
 * @return {object} The game view
 */
-export default (container, engine) => {
-  const {getCells, getActivePlayer, getWinner, hasWinner, isGameOver} = engine
+export default (container, initialState) => {
   const {on, trigger} = createEventEmitter()
+
+  container.addEventListener('click', handleClick)
+  render(initialState)
+
+  return Object.freeze({
+    on, // click:cell, click:restart
+    render
+  })
 
   function avatar (player) {
     if (player === null) return ''
     return player ? 'O' : 'X'
   }
 
-  function renderCell ({pos, player, isWinner}) {
+  function renderCell ({ pos, player, isWinner }) {
     const classes = [
       'cell',
       isWinner ? `is-winner player${avatar(player)}` : ''
@@ -25,26 +32,19 @@ export default (container, engine) => {
     return `<div class="${classes}" data-pos="${pos}">${avatar(player)}</div>`
   }
 
-  function renderMessage () {
-    if (hasWinner()) {
-      const winnerAvatar = avatar(getWinner())
+  function renderMessage ({ winner, isGameOver, activePlayer }) {
+    if (winner) {
+      const winnerAvatar = avatar(winner)
       return `<span class="player${winnerAvatar}">Player ${winnerAvatar} has won!</span>`
     }
-    if (isGameOver()) return 'Nobody has won!'
+    if (isGameOver) return 'Nobody has won!'
 
-    const activeAvatar = avatar(getActivePlayer())
+    const activeAvatar = avatar(activePlayer)
     return `<span class="player${activeAvatar}">It's player ${activeAvatar}'s turn!</span>`
   }
 
   function renderRestartBtn () {
     return '<a href="#restart" class="again" id="btnRestart">Again?</a>'
-  }
-
-  function render () {
-    container.innerHTML = `
-      <div class="info">${renderMessage()} ${isGameOver() ? renderRestartBtn() : ''}</div>
-      <div class="field">${getCells().map(renderCell).join('')}</div>
-    `
   }
 
   function handleClick (event) {
@@ -62,12 +62,13 @@ export default (container, engine) => {
     }
   }
 
-  container.addEventListener('click', handleClick)
-  render()
+  function render (state) {
+    const { isGameOver, cells } = state
 
-  return Object.freeze({
-    on, // click:cell, click:restart
-    render
-  })
+    container.innerHTML = `
+      <div class="info">${renderMessage(state)} ${isGameOver ? renderRestartBtn() : ''}</div>
+      <div class="field">${cells.map(renderCell).join('')}</div>
+    `
+  }
 }
 

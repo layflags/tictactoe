@@ -15,16 +15,6 @@ const WINNER_FIELDS = [
   0b001010100
 ]
 
-// Bit field helpers
-
-function bit (pos) {
-  return Math.pow(2, pos)
-}
-
-function isset (field, pos) {
-  return (field & bit(pos)) > 0
-}
-
 /**
 * Creates the game engine.
 *
@@ -33,12 +23,16 @@ function isset (field, pos) {
 export default () => {
   const {on, trigger} = createEventEmitter()
 
-  // Game state
-
+  // Internal game state
   let fields = Array(2).fill(EMPTY_FIELD)
   let activePlayer = 0
 
-  // Private methods
+  return Object.freeze({
+    getState,
+    move,
+    reset,
+    on
+  })
 
   function xo (pos) {
     fields[activePlayer] |= bit(pos)
@@ -61,8 +55,6 @@ export default () => {
 
     return (win || false) && isset(win, pos)
   }
-
-  // Public methods
 
   function isTakenBy (player, pos) {
     return isset(fields[player], pos)
@@ -104,17 +96,6 @@ export default () => {
     return hasWinner() || isFieldFilled()
   }
 
-  function move (pos) {
-    if (isGameOver()) return false
-    if (isTaken(pos)) return false
-
-    xo(pos)
-    switchPlayer()
-    trigger('update')
-
-    return true
-  }
-
   function getCells () {
     const isWon = hasWinner()
 
@@ -122,30 +103,43 @@ export default () => {
       const player = getPlayerOn(pos)
       const isWinner = isWon && isWinnerCell(pos, player)
 
-      return {pos, player, isWinner}
+      return { pos, player, isWinner }
     })
+  }
+
+  function move (pos) {
+    if (isGameOver()) return false
+    if (isTaken(pos)) return false
+
+    xo(pos)
+    switchPlayer()
+    trigger('update', getState())
+
+    return true
   }
 
   function reset () {
     fields.fill(EMPTY_FIELD)
     activePlayer = 0
-    trigger('update')
+    trigger('update', getState())
   }
 
-  return Object.freeze({
-    getActivePlayer,
-    getOtherPlayer,
-    getPlayerOn,
-    getWinner,
-    hasWinner,
-    isGameOver,
-    isTaken,
-    isTakenBy,
-    isWinner,
-    getCells,
-    move,
-    on,
-    reset
-  })
+  function getState () {
+    return {
+      cells: getCells(),
+      activePlayer: getActivePlayer(),
+      winner: getWinner(),
+      isGameOver: isGameOver()
+    }
+  }
 }
 
+// Bit field helpers
+
+function bit (pos) {
+  return Math.pow(2, pos)
+}
+
+function isset (field, pos) {
+  return (field & bit(pos)) > 0
+}

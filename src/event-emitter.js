@@ -1,6 +1,11 @@
 export default () => {
   const eventCallbacks = []
 
+  return Object.freeze({
+    on,
+    trigger
+  })
+
   function on (eventName, cb) {
     eventCallbacks.push([cb, eventName])
   }
@@ -10,10 +15,5 @@ export default () => {
       if (eventName === evtName) cb(...args)
     })
   }
-
-  return Object.freeze({
-    on,
-    trigger
-  })
 }
 
