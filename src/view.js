@@ -33,7 +33,7 @@ export default (container, initialState) => {
   }
 
   function renderMessage ({ winner, isGameOver, activePlayer }) {
-    if (winner) {
+    if (typeof winner === 'number') {
       const winnerAvatar = avatar(winner)
       return `<span class="player${winnerAvatar}">Player ${winnerAvatar} has won!</span>`
     }
