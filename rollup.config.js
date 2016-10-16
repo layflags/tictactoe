@@ -1,6 +1,5 @@
 import buble from 'rollup-plugin-buble'
 import uglify from 'rollup-plugin-uglify'
-import sourcemaps from 'rollup-plugin-sourcemaps'
 import postcss from 'rollup-plugin-postcss-export'
 import commonjs from 'rollup-plugin-commonjs'
 import nodeResolve from 'rollup-plugin-node-resolve'
@@ -26,7 +25,6 @@ export default {
       ],
       output: 'build/ttt.min.css'
     }),
-    sourcemaps(),
     buble(),
     nodeResolve(),
     commonjs(),
