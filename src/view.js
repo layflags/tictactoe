@@ -4,7 +4,7 @@ import createEventEmitter from './event-emitter'
 * Creates the game view.
 *
 * @param {HTMLElement} container - The container where view is rendered
-* @param {object} engine - The game engine
+* @param {object} initialState - The game state
 * @return {object} The game view
 */
 export default (container, initialState) => {
