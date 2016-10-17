@@ -39,11 +39,11 @@ export default () => {
   }
 
   function checkWinFor (player) {
-    return (win) => (fields[player] & win) === win
+    return win => (fields[player] & win) === win
   }
 
   function switchPlayer () {
-    activePlayer = getOtherPlayer()
+    activePlayer = -(activePlayer - 1)
   }
 
   function isFieldFilled () {
@@ -56,40 +56,20 @@ export default () => {
     return (win || false) && isset(win, pos)
   }
 
-  function isTakenBy (player, pos) {
-    return isset(fields[player], pos)
-  }
-
   function getPlayerOn (pos) {
-    const player = [0, 1].find((player) => isTakenBy(player, pos))
-
-    return Number.isInteger(player) ? player : null
+    return [0, 1].find(player => isset(fields[player], pos))
   }
 
   function isTaken (pos) {
-    return getPlayerOn(pos) !== null
-  }
-
-  function getActivePlayer () {
-    return activePlayer
-  }
-
-  function getOtherPlayer () {
-    return Math.abs(activePlayer - 1)
-  }
-
-  function isWinner (player) {
-    return WINNER_FIELDS.some(checkWinFor(player))
+    return Number.isInteger(getPlayerOn(pos))
   }
 
   function getWinner () {
-    const player = [0, 1].find(isWinner)
-
-    return Number.isInteger(player) ? player : null
+    return [0, 1].find(player => WINNER_FIELDS.some(checkWinFor(player)))
   }
 
   function hasWinner () {
-    return getWinner() !== null
+    return Number.isInteger(getWinner())
   }
 
   function isGameOver () {
@@ -126,8 +106,8 @@ export default () => {
 
   function getState () {
     return {
+      activePlayer,
       cells: getCells(),
-      activePlayer: getActivePlayer(),
       winner: getWinner(),
       isGameOver: isGameOver()
     }
