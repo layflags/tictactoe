@@ -22,7 +22,7 @@
     "files": [
       "test/**/*.test.js"
     ],
-    "timeout": "2s"
+    "timeout": "30s"
   },
   "pre-commit": [
     "lint",
