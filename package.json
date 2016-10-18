@@ -12,6 +12,17 @@
     "minify": "inline-assets --htmlmin build/index.html build/index.html",
     "deploy": "npm run -s build && npm run -s minify && surge build tictactoe.layfla.gs"
   },
+  "ava": {
+    "require": [
+      "reify"
+    ],
+    "source": [
+      "src/**/*.js"
+    ],
+    "files": [
+      "test/**/*.test.js"
+    ]
+  },
   "pre-commit": [
     "lint",
     "test"
@@ -50,6 +61,7 @@
     "surge": "^0.15.0"
   },
   "dependencies": {
-    "core-js": "^2.4.1"
+    "core-js": "^2.4.1",
+    "reify": "^0.3.8"
   }
 }
