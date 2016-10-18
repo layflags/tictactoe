@@ -1,15 +1,10 @@
 before_script:
-  - apt-get update -qq && apt-get install -y -qq nodejs
-  - node -v
-  - which node
-  - npm -v
-  - which npm
   - npm install
-
 test:
+  image: node:latest
   script:
-    - npm test
-
+  - npm test
 lint:
+  image: node:latest
   script:
-    - npm run lint
+  - npm run lint
