@@ -4,11 +4,13 @@ test_and_lint:
   stage: test
   image: node:latest
   script:
-  - npm run lint
-  - npm test
+    - npm run lint
+    - npm test
 build_and_deploy_to_surge:
   stage: deploy
   image: node:latest
   environment: production
+  only:
+    - master
   script:
-  - npm run deploy
+    - npm run deploy
