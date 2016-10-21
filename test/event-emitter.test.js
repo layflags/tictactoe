@@ -3,14 +3,14 @@ import test from 'ava'
 // module under test
 import createEventEmitter from '../src/event-emitter'
 
-test('create an event emitter instance', t => {
+test('creates an event emitter instance', t => {
   const subject = createEventEmitter()
 
   t.true('on' in subject)
   t.true('trigger' in subject)
 })
 
-test.cb('trigger event and notify all subscribers', t => {
+test.cb('triggers event and notifies all subscribers', t => {
   const subject = createEventEmitter()
 
   t.plan(2)
@@ -24,7 +24,7 @@ test.cb('trigger event and notify all subscribers', t => {
   t.end()
 })
 
-test.cb('trigger event with data and notify subscriber', t => {
+test.cb('triggers event with data and notifies subscriber', t => {
   const subject = createEventEmitter()
 
   subject.on('some:event', (data, ltuae) => {
